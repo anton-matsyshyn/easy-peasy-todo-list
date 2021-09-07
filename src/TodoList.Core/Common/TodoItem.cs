@@ -4,7 +4,7 @@ using TodoList.Core.Enums;
 
 namespace TodoList.Core.Common
 {
-    public class Task : Entity
+    public class TodoItem : Entity
     {
         public string Title { get; set; }
         public string Description { get; set; }
