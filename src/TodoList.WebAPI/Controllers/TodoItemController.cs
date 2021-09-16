@@ -7,11 +7,11 @@ namespace TodoList.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ToDoListController : ControllerBase
+    public class TodoItemController : ControllerBase
     {
-        private readonly IToDoListService _service;
+        private readonly ITodoItemService _service;
 
-        public ToDoListController(IToDoListService service)
+        public TodoItemController(ITodoItemService service)
         {
             _service = service;
         }
@@ -28,21 +28,15 @@ namespace TodoList.WebAPI.Controllers
             return Ok(await _service.GetByIDCommand(id).ExecuteAsync());
         }
 
-        [HttpGet("{id}/items")]
-        public async Task<IActionResult> GetItemsByList(string id)
-        {
-            return Ok(await _service.GetTodoItemsCommand(id).ExecuteAsync());
-        }
-
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ToDoList payload)
+        public async Task<IActionResult> Create([FromBody] TodoItem payload)
         {
             var result = await _service.InsertCommand(payload).ExecuteAsync();
             return StatusCode(201, result);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] ToDoList payload)
+        public async Task<IActionResult> Update([FromBody] TodoItem payload)
         {
             return Ok(await _service.UpdateCommand(payload).ExecuteAsync());
         }
