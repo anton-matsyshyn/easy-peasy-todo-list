@@ -4,7 +4,6 @@
     {
         NotSet,
         Easy,
-        Peasy,
         Middle,
         Hard,
         Overcomplex

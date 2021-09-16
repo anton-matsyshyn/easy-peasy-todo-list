@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TodoList.Core.Common;
+using TodoList.Infrastructure.EntityFramework.Entities;
 
 namespace TodoList.Infrastructure.EntityFramework.Contexts
 {
@@ -8,7 +8,8 @@ namespace TodoList.Infrastructure.EntityFramework.Contexts
         public TodoListDbContext(DbContextOptions<TodoListDbContext> options): base(options)
         { }
 
-        public DbSet<TodoItem> Items { get; set; }
-        public DbSet<ToDoList> Lists { get; set; }
+        public DbSet<TodoItemEntity> Items { get; set; }
+        public DbSet<ToDoListEntity> Lists { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
     }
 }

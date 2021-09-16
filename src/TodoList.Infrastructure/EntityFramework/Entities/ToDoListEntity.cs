@@ -1,9 +1,9 @@
-﻿using Peasy;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
-namespace TodoList.Core.Common
+namespace TodoList.Infrastructure.EntityFramework.Entities
 {
-    public class ToDoList : IDomainObject<string>
+    public class ToDoListEntity
     {
         public string ID { get; set; }
         public string Description { get; set; }
@@ -11,5 +11,8 @@ namespace TodoList.Core.Common
         public DateTime Deadline { get; set; }
         public DateTime? FinishDate { get; set; }
         public string CreatorId { get; set; }
+
+        public IList<TodoItemEntity> Items { get; set; }
+        public UserEntity Creator { get; set; }
     }
 }

@@ -10,8 +10,8 @@ using TodoList.Infrastructure.EntityFramework.Contexts;
 namespace TodoList.Infrastructure.EntityFramework.Migrations
 {
     [DbContext(typeof(TodoListDbContext))]
-    [Migration("20210907113344_Init")]
-    partial class Init
+    [Migration("20210914140824_RemoveDeadlineColumn")]
+    partial class RemoveDeadlineColumn
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,9 +21,12 @@ namespace TodoList.Infrastructure.EntityFramework.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("TodoList.Core.Common.ToDoList", b =>
+            modelBuilder.Entity("TodoList.Infrastructure.EntityFramework.Entities.ToDoListEntity", b =>
                 {
                     b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatorId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Deadline")
@@ -38,24 +41,20 @@ namespace TodoList.Infrastructure.EntityFramework.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ID");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Lists");
                 });
 
-            modelBuilder.Entity("TodoList.Core.Common.TodoItem", b =>
+            modelBuilder.Entity("TodoList.Infrastructure.EntityFramework.Entities.TodoItemEntity", b =>
                 {
                     b.Property<string>("ID")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Complexity")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Deadline")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -76,16 +75,47 @@ namespace TodoList.Infrastructure.EntityFramework.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("TodoList.Core.Common.TodoItem", b =>
+            modelBuilder.Entity("TodoList.Infrastructure.EntityFramework.Entities.UserEntity", b =>
                 {
-                    b.HasOne("TodoList.Core.Common.ToDoList", "List")
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("TodoList.Infrastructure.EntityFramework.Entities.ToDoListEntity", b =>
+                {
+                    b.HasOne("TodoList.Infrastructure.EntityFramework.Entities.UserEntity", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("TodoList.Infrastructure.EntityFramework.Entities.TodoItemEntity", b =>
+                {
+                    b.HasOne("TodoList.Infrastructure.EntityFramework.Entities.ToDoListEntity", "List")
                         .WithMany("Items")
                         .HasForeignKey("ListId");
 
                     b.Navigation("List");
                 });
 
-            modelBuilder.Entity("TodoList.Core.Common.ToDoList", b =>
+            modelBuilder.Entity("TodoList.Infrastructure.EntityFramework.Entities.ToDoListEntity", b =>
                 {
                     b.Navigation("Items");
                 });
