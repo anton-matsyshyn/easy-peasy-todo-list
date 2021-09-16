@@ -98,19 +98,19 @@ namespace TodoList.Application.Tests.Commands
                     p => p.UserIsAssociatedWithList(It.IsAny<string>(), It.IsAny<string>())
                 )
                 .Returns(new AlwaysValidRule());
-
-            _testee = new UpdateToDoListCommand(
-                    _toDoList,
-                    _mockTodoListDataProxy.Object,
-                    _mockNotificationSender.Object,
-                    _mockCurrentUserContext.Object,
-                    _mockRuleFactory.Object
-                );
         }
     
         [TestMethod]
         public async Task should_call_data_proxy()
         {
+            _testee = new UpdateToDoListCommand(
+                _toDoList,
+                _mockTodoListDataProxy.Object,
+                _mockNotificationSender.Object,
+                _mockCurrentUserContext.Object,
+                _mockRuleFactory.Object
+            );
+
             var result = await _testee.ExecuteAsync();
 
             result.Success.Should().BeTrue();
@@ -124,6 +124,14 @@ namespace TodoList.Application.Tests.Commands
         [TestMethod]
         public async Task should_call_notifiyer_for_each_work_item()
         {
+            _testee = new UpdateToDoListCommand(
+                _toDoList,
+                _mockTodoListDataProxy.Object,
+                _mockNotificationSender.Object,
+                _mockCurrentUserContext.Object,
+                _mockRuleFactory.Object
+            );
+
             var result = await _testee.ExecuteAsync();
             var workItems = _todoItems.Where(_ => _.Type == TaskType.Work);
 

@@ -53,6 +53,7 @@ namespace TodoList.Application.Commands
 
         protected override async Task<ToDoList> OnExecuteAsync()
         {
+            throw new System.Exception();
             if (List.FinishDate is null)
             {
                 var notificationTasks = WorkTodoItems.Select(

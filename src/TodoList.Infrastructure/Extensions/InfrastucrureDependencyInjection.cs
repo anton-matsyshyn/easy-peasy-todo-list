@@ -34,6 +34,8 @@ namespace TodoList.Infrastructure.Extensions
 
             services.AddTransient<INotificationSender, NotificationSender>();
 
+            services.AddTransient<IJobScheduler, JobScheduler>();
+
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.ApplySeeding();
